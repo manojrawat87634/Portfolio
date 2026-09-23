@@ -7,7 +7,7 @@ import SocialLinks from "../socialMedia/SocialMedia";
 
 export default function Hero() {
   return (
-    <section className="relative pb-10 pt-10 md:pb-20 md:pt-20">
+    <section className="relative pt-4">
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
         {/* Left Column: Text & Content */}
         <div className="flex flex-col items-start lg:col-span-7">
@@ -72,6 +72,7 @@ export default function Hero() {
 
       {/* Social Media */}
       <SocialLinks />
+
 
       {/* 5. Quick Tech Stack Pills */}
       <div className="mt-14 flex w-full flex-col gap-3 border-t border-white/10 pt-8">
