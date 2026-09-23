@@ -1,46 +1,72 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import TypingEffect from "../typingEffect/TypingEffect";
 
 export default function Hero() {
   return (
-    <section className="relative flex flex-col items-start justify-center pt-24 pb-20 md:pt-36 md:pb-32">
-      {/* 1. Status Badge */}
-      <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-medium text-emerald-400 backdrop-blur-sm">
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-        </span>
-        Available for new opportunities
-      </div>
+    <section className="relative pt-10 pb-10 md:pt-20 md:pb-20">
+      <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+        {/* Left Column: Text & Content */}
+        <div className="flex flex-col items-start lg:col-span-7">
+          {/* 1. Status Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-medium text-emerald-400 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+            </span>
+            Available for new opportunities
+          </div>
 
-      {/* 2. Main Headline */}
-      <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
-        Building modern, scalable <br />
-        <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-500 bg-clip-text text-transparent">
-          web experiences.
-        </span>
-      </h1>
+          {/* 2. Main Headline */}
+          <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl leading-tight">
+            Building modern, scalable <br />
+            <span className="inline-flex items-center bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-500 bg-clip-text text-transparent">
+              <TypingEffect />
+            </span>
+          </h1>
 
-      {/* 3. Subtitle / Value Proposition */}
-      <p className="mt-6 max-w-2xl text-lg text-neutral-400 sm:text-xl leading-relaxed">
-        Hi, I'm <strong className="text-white font-semibold">Manoj Rawat</strong> — a Full-Stack Developer specializing in high-performance web applications using Next.js, TypeScript, and modern UI engineering.
-      </p>
+          {/* 3. Subtitle / Value Proposition */}
+          <p className="mt-6 max-w-2xl text-lg text-neutral-400 sm:text-xl leading-relaxed">
+            Hi, I'm <strong className="text-white font-semibold">Manoj Rawat</strong> — a Full-Stack Developer specializing in robust backend architectures, API integration, payment systems, and scalable full-stack web applications.
+          </p>
 
-      {/* 4. Call-To-Action (CTA) Buttons */}
-      <div className="mt-8 flex flex-wrap items-center gap-4">
-        <Link
-          href="#projects"
-          className="rounded-xl bg-white px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-neutral-200 active:scale-95 shadow-lg shadow-white/10"
-        >
-          View My Projects
-        </Link>
-        <Link
-          href="#contact"
-          className="rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:border-white/25 active:scale-95"
-        >
-          Get in Touch
-        </Link>
+          {/* 4. Call-To-Action (CTA) Buttons */}
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <Link
+              href="#projects"
+              className="rounded-xl bg-white px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-neutral-200 active:scale-95 shadow-lg shadow-white/10"
+            >
+              View My Projects
+            </Link>
+            <Link
+              href="#contact"
+              className="rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:border-white/25 active:scale-95"
+            >
+              Get in Touch
+            </Link>
+          </div>
+        </div>
+
+        {/* Right Column: Profile Photo Section */}
+        <div className="relative flex justify-center lg:col-span-5 lg:justify-end">
+          {/* Ambient Glow / Background Gradient */}
+          <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 opacity-30 blur-2xl transition duration-1000 group-hover:opacity-100"></div>
+
+          {/* Image Container Card */}
+          <div className="relative aspect-square w-full max-w-sm overflow-hidden rounded-full border border-white/10 bg-neutral-900/60 p-2 backdrop-blur-xl shadow-2xl">
+            <div className="relative h-full w-full overflow-hidden rounded-full">
+              <Image
+                src="/profile1.jpg" // Replace with your image path or URL
+                alt="Manoj Rawat"
+                fill
+                priority
+                className="object-cover transition-transform duration-500 rounded-full hover:scale-105"
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 5. Quick Tech Stack Pills */}
