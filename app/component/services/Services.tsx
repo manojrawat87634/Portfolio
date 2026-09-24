@@ -3,8 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import { ServiceItem, servicesData } from "./ServiceItem";
-
-export default function Services() {
+export interface ServicesProps {
+  onOpenEnquiry?: () => void; // Optional function that accepts no arguments and returns nothing
+}
+export default function Services({ onOpenEnquiry }: ServicesProps) {
   return (
     <section id="services" className="relative w-full bg-black py-24 text-white">
       {/* Background Radial Glow */}
@@ -83,6 +85,10 @@ export default function Services() {
               </p>
             </div>
             <Link
+              onClick={(e) => {
+                e.preventDefault();
+                if (onOpenEnquiry) onOpenEnquiry();
+              }}
               href="/#contact"
               className="whitespace-nowrap rounded-xl bg-blue-600 px-6 py-3 text-xs font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 active:scale-95 sm:text-sm"
             >
