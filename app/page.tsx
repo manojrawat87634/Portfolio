@@ -1,5 +1,6 @@
 import Hero from "./component/hero/Hero";
 import Navbar from "./component/navbar/Navbar";
+import Services from "./component/services/Services";
 
 
 export default function Home() {
@@ -8,8 +9,11 @@ export default function Home() {
       {/* 1. Navbar stays fixed at the top */}
       <Navbar />
 
-      <main className="mx-auto max-w-6xl px-6">
+      <main className="mx-auto md:max-w-7xl px-6">
         <Hero />
+      </main>
+      <main className="mx-auto md:max-w-7xl px-6">
+        <Services />
       </main>
       {/* 3. Footer */}
       <footer className="border-t border-white/10 py-8 text-center text-sm text-neutral-500">

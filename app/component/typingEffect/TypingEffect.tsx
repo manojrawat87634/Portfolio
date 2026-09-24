@@ -67,7 +67,7 @@ export default function TypingEffect({
 
   return (
     <div className="inline-flex items-center font-mono text-2xl font-bold sm:text-4xl">
-      <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-500 bg-clip-text text-transparent">
+      <span className=" from-blue-400 via-indigo-300 to-purple-500 bg-clip-text text-transparent">
         {currentDisplayedText}
       </span>
       {/* Blinking Cursor */}
