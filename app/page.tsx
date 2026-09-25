@@ -6,6 +6,7 @@ import SelfModal from "./component/modal/SelfModal";
 import Navbar from "./component/navbar/Navbar";
 import ProjectEnquiryForm from "./component/pages/forms/ProjectEnquiry";
 import Services from "./component/services/Services";
+import Projects from "./component/pages/projects/Project";
 
 export default function Home() {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState<boolean>(false);
@@ -31,7 +32,7 @@ export default function Home() {
         setIsItemOpen={setIsEnquiryOpen}
         width="max-w-3xl w-full"
       />
-
+  <Projects />
       {/* Footer */}
       <footer className="border-t border-white/10 py-8 text-center text-sm text-neutral-500">
         © {new Date().getFullYear()} Your Name. All rights reserved.
