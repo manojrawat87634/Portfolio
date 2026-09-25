@@ -18,9 +18,6 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <LaptopNavbar />
-
-        {/* Mobile Navigation */}
-        <PhoneNav />
       </div>
     </header>
   );

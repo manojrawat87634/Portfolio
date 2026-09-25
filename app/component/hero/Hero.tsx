@@ -84,16 +84,19 @@ export default function Hero() {
             Next.js 14+
           </span>
           <span className="rounded-md border border-white/10 bg-neutral-900/80 px-2.5 py-1">
-            TypeScript
+            Spring Boot(java)
           </span>
           <span className="rounded-md border border-white/10 bg-neutral-900/80 px-2.5 py-1">
-            Tailwind CSS
+            SQL & mongodb
           </span>
           <span className="rounded-md border border-white/10 bg-neutral-900/80 px-2.5 py-1">
             Node.js
           </span>
           <span className="rounded-md border border-white/10 bg-neutral-900/80 px-2.5 py-1">
-            PostgreSQL
+            Django(Python)
+          </span>
+          <span className="rounded-md border border-white/10 bg-neutral-900/80 px-2.5 py-1">
+            Devops
           </span>
         </div>
       </div>
