@@ -162,7 +162,7 @@ export const projects: Project[] = [
     tags: ['MongoDB', 'Express.js', 'React', 'Node.js'],
     images: ['/projects/4/p1.png', '/projects/4/p2.png'],
     githubUrl: null,
-    liveUrl: 'https://heretomovewa.com.au/',
+    liveUrl: 'https://hollowayremovals.com.au/',
     caseStudy: {
       overview:
         'A customer-facing service portal engineered for a Western Australia removalist business. Features location-based quote discovery, service booking, and interactive customer inquiry management.',
