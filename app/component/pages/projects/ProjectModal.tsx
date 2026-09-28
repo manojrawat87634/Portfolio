@@ -19,6 +19,7 @@ import {
   RotateCcw,
   Laptop,
   Smartphone,
+  Sparkles,
 } from 'lucide-react';
 import { Project } from './projectData';
 
@@ -30,12 +31,12 @@ interface ProjectModalProps {
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'architecture' | 'challenges'>('overview');
 
-  // Lightbox & Slider States
+  // Lightbox & Viewer States
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [deviceView, setDeviceView] = useState<'laptop' | 'phone'>('laptop');
   const [zoomLevel, setZoomLevel] = useState<number>(1);
 
-  // Lock background scroll when modal or lightbox is open
+  // Prevent background scrolling when modal or preview is active
   useEffect(() => {
     if (project) {
       document.body.style.overflow = 'hidden';
@@ -47,7 +48,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     };
   }, [project]);
 
-  // Handle keyboard navigation for Lightbox (Left/Right arrows & Escape key)
+  // Keyboard Navigation Listener
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (lightboxIndex === null || !project) return;
@@ -94,44 +95,47 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     }
   };
 
-  const zoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.5, 3));
-  const zoomOut = () => setZoomLevel((prev) => Math.max(prev - 0.5, 1));
+  const zoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.25, 2.5));
+  const zoomOut = () => setZoomLevel((prev) => Math.max(prev - 0.25, 1));
   const resetZoom = () => setZoomLevel(1);
 
   return (
     <>
-      {/* ---------------- MAIN CASE STUDY MODAL ---------------- */}
+      {/* =========================================================================
+          PRIMARY CASE STUDY MODAL
+         ========================================================================= */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
-        <div className="relative w-full max-w-4xl max-h-[90vh] bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-100">
+        <div className="relative w-full max-w-4xl max-h-[90vh] bg-slate-900/95 border border-slate-700/60 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-100 ring-1 ring-white/10">
+          
           {/* Header */}
-          <div className="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+          <div className="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/80 backdrop-blur-sm">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[11px] font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                   {caseStudy.role}
                 </span>
                 <span className="text-xs text-slate-400 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  Verified System Case Study
+                  Verified System Architecture
                 </span>
               </div>
-              <h2 className="text-2xl font-bold text-white">{project.title}</h2>
+              <h2 className="text-2xl font-bold text-white tracking-tight">{project.title}</h2>
             </div>
 
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors"
+              className="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 rounded-xl transition-all"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Tabs */}
-          <div className="flex border-b border-slate-800 bg-slate-900/30 px-6 gap-6 text-sm font-medium">
+          {/* Navigation Tabs */}
+          <div className="flex border-b border-slate-800 bg-slate-900/40 px-6 gap-8 text-sm font-medium">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`py-3 border-b-2 transition-colors flex items-center gap-2 ${
+              className={`py-3.5 border-b-2 transition-all flex items-center gap-2 ${
                 activeTab === 'overview'
                   ? 'border-indigo-500 text-indigo-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -142,7 +146,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </button>
             <button
               onClick={() => setActiveTab('architecture')}
-              className={`py-3 border-b-2 transition-colors flex items-center gap-2 ${
+              className={`py-3.5 border-b-2 transition-all flex items-center gap-2 ${
                 activeTab === 'architecture'
                   ? 'border-indigo-500 text-indigo-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -153,7 +157,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </button>
             <button
               onClick={() => setActiveTab('challenges')}
-              className={`py-3 border-b-2 transition-colors flex items-center gap-2 ${
+              className={`py-3.5 border-b-2 transition-all flex items-center gap-2 ${
                 activeTab === 'challenges'
                   ? 'border-indigo-500 text-indigo-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -164,26 +168,28 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </button>
           </div>
 
-          {/* Body */}
+          {/* Tab Content Area */}
           <div className="p-6 overflow-y-auto flex-1 space-y-6">
+            
+            {/* OVERVIEW TAB */}
             {activeTab === 'overview' && (
               <div className="space-y-6">
                 <div>
                   <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                    System Overview
+                    Executive Summary
                   </h3>
                   <p className="text-slate-300 text-sm leading-relaxed">{caseStudy.overview}</p>
                 </div>
 
                 <div>
                   <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                    Technologies Applied
+                    Technologies & Infrastructure
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, idx) => (
                       <span
                         key={idx}
-                        className="text-xs px-3 py-1 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 font-medium"
+                        className="text-xs px-3 py-1 rounded-lg bg-slate-800/80 text-slate-200 border border-slate-700/80 font-medium"
                       >
                         {tag}
                       </span>
@@ -191,15 +197,15 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   </div>
                 </div>
 
-                {/* Screenshots Grid with Zoom Trigger */}
+                {/* Screenshots Gallery Grid */}
                 {project.images.length > 0 && (
                   <div>
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                        Screenshots ({project.images.length})
+                        Production Screenshots ({project.images.length})
                       </h3>
-                      <span className="text-xs text-indigo-400 flex items-center gap-1 font-medium">
-                        <Maximize2 className="w-3 h-3" /> Click any image to open Device Zoom View
+                      <span className="text-[11px] text-indigo-400 flex items-center gap-1 font-medium">
+                        <Sparkles className="w-3 h-3" /> Click image to expand interactive viewport
                       </span>
                     </div>
 
@@ -208,17 +214,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         <div
                           key={idx}
                           onClick={() => handleOpenLightbox(idx)}
-                          className="group relative h-32 w-full rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer transition-all duration-300 hover:border-indigo-500/80 hover:shadow-lg hover:shadow-indigo-500/10"
+                          className="group relative h-32 w-full rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer transition-all duration-300 hover:border-indigo-500/60 hover:shadow-lg hover:shadow-indigo-500/10"
                         >
                           <Image
                             src={img}
-                            alt={`${project.title} screenshot ${idx + 1}`}
+                            alt={`${project.title} preview ${idx + 1}`}
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                           />
-                          <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-xs font-medium">
+                          <div className="absolute inset-0 bg-slate-950/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-white text-xs font-medium backdrop-blur-[2px]">
                             <Maximize2 className="w-4 h-4 text-indigo-400" />
-                            <span>Expand</span>
+                            <span>Preview</span>
                           </div>
                         </div>
                       ))}
@@ -228,15 +234,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               </div>
             )}
 
+            {/* ARCHITECTURE TAB */}
             {activeTab === 'architecture' && (
               <div className="space-y-6">
                 <div>
                   <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                    Core Architectural Decisions
+                    Core Architectural Highlights
                   </h3>
-                  <ul className="space-y-2.5">
+                  <ul className="space-y-3">
                     {caseStudy.architectureHighlights.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 text-sm text-slate-300">
+                      <li key={idx} className="flex items-start gap-3 text-sm text-slate-300">
                         <CheckCircle2 className="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" />
                         <span>{item}</span>
                       </li>
@@ -245,12 +252,12 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 </div>
 
                 {caseStudy.databaseSchemaHighlights && (
-                  <div className="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                  <div className="p-4 bg-slate-800/40 rounded-xl border border-slate-700/50">
                     <h3 className="text-sm font-semibold text-indigo-400 mb-2 flex items-center gap-2">
                       <Database className="w-4 h-4" />
-                      Key Database Entities & Schemas
+                      Key Database Schemas & Entities
                     </h3>
-                    <ul className="list-disc list-inside text-sm text-slate-300 space-y-1">
+                    <ul className="list-disc list-inside text-sm text-slate-300 space-y-1.5">
                       {caseStudy.databaseSchemaHighlights.map((schema, idx) => (
                         <li key={idx}>{schema}</li>
                       ))}
@@ -260,10 +267,11 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               </div>
             )}
 
+            {/* CHALLENGES TAB */}
             {activeTab === 'challenges' && (
               <div className="space-y-6">
                 <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                  Engineering Depth & Solutions
+                  Technical Obstacles & Solutions
                 </h3>
                 <div className="space-y-4">
                   {caseStudy.keyChallenges.map((item, idx) => (
@@ -271,12 +279,12 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                       key={idx}
                       className="p-4 bg-slate-800/40 rounded-xl border border-slate-700/60 space-y-2"
                     >
-                      <p className="text-xs font-semibold text-amber-400 uppercase">
+                      <p className="text-[11px] font-semibold text-amber-400 uppercase tracking-wider">
                         Challenge #{idx + 1}
                       </p>
-                      <p className="text-sm font-medium text-white">{item.challenge}</p>
-                      <p className="text-xs font-semibold text-emerald-400 uppercase pt-2">
-                        Solution
+                      <p className="text-sm font-semibold text-white">{item.challenge}</p>
+                      <p className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider pt-2">
+                        Engineering Solution
                       </p>
                       <p className="text-sm text-slate-300 leading-relaxed">{item.solution}</p>
                     </div>
@@ -287,18 +295,18 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
 
           {/* Footer */}
-          <div className="p-4 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center text-xs">
-            <span className="text-slate-500">
-              {project.githubUrl ? 'Open Source Project' : 'Private Enterprise Project'}
+          <div className="p-4 border-t border-slate-800 bg-slate-900/80 flex justify-between items-center text-xs">
+            <span className="text-slate-500 font-medium">
+              {project.githubUrl ? 'Open Source Project' : 'Private Enterprise Solution'}
             </span>
             {project.liveUrl && (
               <Link
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition-colors inline-flex items-center gap-1.5"
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition-colors inline-flex items-center gap-1.5 shadow-lg shadow-indigo-600/20"
               >
-                Visit Production Link
+                Launch Live App
                 <ExternalLink className="w-3.5 h-3.5" />
               </Link>
             )}
@@ -306,46 +314,55 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         </div>
       </div>
 
-      {/* ---------------- DEVICE LIGHTBOX MODAL WITH SLIDER & ZOOM ---------------- */}
+      {/* =========================================================================
+          INTERACTIVE DEVICE LIGHTBOX & SLIDER
+         ========================================================================= */}
       {lightboxIndex !== null && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/95 backdrop-blur-lg animate-in fade-in duration-200 p-2 sm:p-6">
-          {/* Top Control Toolbar */}
-          <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between text-white bg-slate-900/80 border border-slate-800 p-3 rounded-2xl backdrop-blur-md">
-            {/* Left: Device Mode Switcher */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400 hidden sm:inline mr-2">
-                {project.title} ({lightboxIndex + 1}/{project.images.length})
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/95 backdrop-blur-xl animate-in fade-in duration-200 p-2 sm:p-6">
+          
+          {/* Header Toolbar */}
+          <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between text-white bg-slate-900/90 border border-slate-800 p-3 rounded-2xl backdrop-blur-md shadow-2xl">
+            {/* Left Controls */}
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-slate-400 hidden sm:inline font-mono">
+                {project.title} &bull; Image {lightboxIndex + 1} of {project.images.length}
               </span>
 
-              <div className="flex bg-slate-800 p-1 rounded-xl border border-slate-700">
+              <div className="flex bg-slate-800/80 p-1 rounded-xl border border-slate-700/80">
                 <button
-                  onClick={() => setDeviceView('laptop')}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors ${
+                  onClick={() => {
+                    setDeviceView('laptop');
+                    setZoomLevel(1);
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
                     deviceView === 'laptop'
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-indigo-600 text-white shadow-md'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <Laptop className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Laptop Frame</span>
+                  <span className="hidden sm:inline">Desktop Frame</span>
                 </button>
                 <button
-                  onClick={() => setDeviceView('phone')}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors ${
+                  onClick={() => {
+                    setDeviceView('phone');
+                    setZoomLevel(1);
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
                     deviceView === 'phone'
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-indigo-600 text-white shadow-md'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <Smartphone className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Phone Frame</span>
+                  <span className="hidden sm:inline">Mobile Frame</span>
                 </button>
               </div>
             </div>
 
-            {/* Right: Zoom & Close Controls */}
+            {/* Right Controls */}
             <div className="flex items-center gap-2">
-              <div className="flex items-center bg-slate-800 rounded-xl border border-slate-700 p-1">
+              <div className="flex items-center bg-slate-800/80 rounded-xl border border-slate-700/80 p-1">
                 <button
                   onClick={zoomOut}
                   disabled={zoomLevel <= 1}
@@ -357,7 +374,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 <span className="text-xs px-2 font-mono text-slate-300">{Math.round(zoomLevel * 100)}%</span>
                 <button
                   onClick={zoomIn}
-                  disabled={zoomLevel >= 3}
+                  disabled={zoomLevel >= 2.5}
                   className="p-1.5 text-slate-300 hover:text-white disabled:opacity-40 transition-colors"
                   title="Zoom In"
                 >
@@ -366,7 +383,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 {zoomLevel > 1 && (
                   <button
                     onClick={resetZoom}
-                    className="p-1.5 text-slate-300 hover:text-white transition-colors border-l border-slate-700 ml-1 pl-2"
+                    className="p-1.5 text-slate-300 hover:text-white transition-colors border-l border-slate-700/80 ml-1 pl-2"
                     title="Reset Zoom"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
@@ -379,17 +396,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   setLightboxIndex(null);
                   setZoomLevel(1);
                 }}
-                className="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 transition-colors"
+                className="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-xl border border-slate-700/80 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
           </div>
 
-          {/* Previous / Next Arrow Controls */}
+          {/* Prev/Next Navigation Controls */}
           <button
             onClick={handlePrevImage}
-            className="absolute left-4 z-20 p-3 text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-700 rounded-full transition-all hover:scale-110 shadow-xl"
+            className="absolute left-4 z-20 p-3 text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 rounded-full transition-all hover:scale-105 shadow-2xl backdrop-blur-md"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -397,33 +414,33 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           <button
             onClick={handleNextImage}
-            className="absolute right-4 z-20 p-3 text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-700 rounded-full transition-all hover:scale-110 shadow-xl"
+            className="absolute right-4 z-20 p-3 text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 rounded-full transition-all hover:scale-105 shadow-2xl backdrop-blur-md"
             aria-label="Next image"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
 
           {/* Central Mockup Viewport */}
-          <div className="w-full h-full flex items-center justify-center p-4 pt-20 pb-16 overflow-auto">
+          <div className="w-full h-full flex items-center justify-center p-4 pt-24 pb-16 overflow-hidden">
             {deviceView === 'laptop' ? (
-              /* -------- LAPTOP FRAME MOCKUP -------- */
+              /* LAPTOP MOCKUP FRAME */
               <div className="relative w-full max-w-5xl flex flex-col items-center">
-                {/* Laptop Display Outer Body */}
-                <div className="relative w-full aspect-[16/10] max-h-[75vh] bg-slate-900 border-[10px] border-slate-800 rounded-t-2xl shadow-2xl overflow-hidden flex flex-col">
-                  {/* Laptop Camera Notch / Bar */}
-                  <div className="h-5 bg-slate-950 flex items-center justify-center px-4 border-b border-slate-800 shrink-0">
+                {/* Display Body */}
+                <div className="relative w-full aspect-[16/10] max-h-[70vh] bg-slate-900 border-[10px] border-slate-800 rounded-t-2xl shadow-2xl overflow-hidden flex flex-col ring-1 ring-slate-700/80">
+                  {/* Camera Bar */}
+                  <div className="h-5 bg-slate-950 flex items-center justify-center border-b border-slate-800/80 shrink-0">
                     <div className="w-2 h-2 rounded-full bg-slate-800 border border-slate-700" />
                   </div>
 
-                  {/* Screen Content Box */}
-                  <div className="relative flex-1 bg-black overflow-auto">
+                  {/* Screen Canvas */}
+                  <div className="relative flex-1 bg-slate-950 overflow-auto flex items-center justify-center">
                     <div
-                      className="relative w-full h-full min-h-[500px] transition-transform duration-200 origin-center"
+                      className="relative w-full h-full min-h-[450px] transition-transform duration-200 origin-center flex items-center justify-center p-2"
                       style={{ transform: `scale(${zoomLevel})` }}
                     >
                       <Image
                         src={project.images[lightboxIndex]}
-                        alt="Zoomed laptop screenshot"
+                        alt="Desktop view screenshot"
                         fill
                         className="object-contain"
                         priority
@@ -433,27 +450,27 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 </div>
 
                 {/* Laptop Base Stand */}
-                <div className="w-[108%] h-4 bg-slate-700 rounded-b-xl shadow-2xl relative flex items-center justify-center border-t border-slate-600">
-                  <div className="w-16 h-1.5 bg-slate-500/60 rounded-full" />
+                <div className="w-[106%] h-3.5 bg-slate-700/90 rounded-b-xl shadow-2xl relative flex items-center justify-center border-t border-slate-600/80">
+                  <div className="w-16 h-1 bg-slate-500/60 rounded-full" />
                 </div>
               </div>
             ) : (
-              /* -------- PHONE FRAME MOCKUP -------- */
-              <div className="relative h-[78vh] aspect-[9/19.5] bg-slate-900 border-[12px] border-slate-800 rounded-[40px] shadow-2xl overflow-hidden flex flex-col ring-1 ring-slate-700">
-                {/* Dynamic Island Notch */}
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-10 flex items-center justify-end px-2">
-                  <div className="w-2 h-2 rounded-full bg-slate-800" />
+              /* PHONE MOCKUP FRAME */
+              <div className="relative h-[75vh] aspect-[9/19.5] bg-slate-900 border-[10px] border-slate-800 rounded-[38px] shadow-2xl overflow-hidden flex flex-col ring-1 ring-slate-700/80">
+                {/* Notch */}
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-3.5 bg-black rounded-full z-10 flex items-center justify-end px-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-slate-800" />
                 </div>
 
-                {/* Phone Screen Box */}
-                <div className="relative flex-1 bg-black overflow-auto pt-6">
+                {/* Mobile Screen Canvas */}
+                <div className="relative flex-1 bg-slate-950 overflow-auto pt-6 flex items-center justify-center">
                   <div
-                    className="relative w-full h-full min-h-[600px] transition-transform duration-200 origin-center"
+                    className="relative w-full h-full min-h-[550px] transition-transform duration-200 origin-center flex items-center justify-center p-2"
                     style={{ transform: `scale(${zoomLevel})` }}
                   >
                     <Image
                       src={project.images[lightboxIndex]}
-                      alt="Zoomed mobile screenshot"
+                      alt="Mobile view screenshot"
                       fill
                       className="object-contain"
                       priority
@@ -464,8 +481,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             )}
           </div>
 
-          {/* Bottom Pagination Indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-full backdrop-blur-md">
+          {/* Bottom Pagination Dots */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 px-4 py-2 rounded-full backdrop-blur-md shadow-2xl">
             {project.images.map((_, idx) => (
               <button
                 key={idx}
@@ -474,7 +491,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   setZoomLevel(1);
                 }}
                 className={`h-2 rounded-full transition-all ${
-                  idx === lightboxIndex ? 'w-6 bg-indigo-500' : 'w-2 bg-slate-600 hover:bg-slate-400'
+                  idx === lightboxIndex ? 'w-6 bg-indigo-500' : 'w-2 bg-slate-700 hover:bg-slate-500'
                 }`}
               />
             ))}
