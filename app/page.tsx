@@ -6,7 +6,7 @@ import SelfModal from "./component/modal/SelfModal";
 import Navbar from "./component/navbar/Navbar";
 import ProjectEnquiryForm from "./component/pages/forms/ProjectEnquiry";
 import Services from "./component/services/Services";
-import Projects from "./component/pages/projects/Project";
+import Projects from "./component/pages/projects/MyProject";
 import Contact from "./component/pages/contact/Contact";
 
 export default function Home() {

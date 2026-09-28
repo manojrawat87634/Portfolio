@@ -6,7 +6,7 @@ import ProjectModal from './ProjectModal';
 import { Project, projects } from './projectData';
 // adjust to your file paths
 
-export default function Projects() {
+export default function MyProject() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
