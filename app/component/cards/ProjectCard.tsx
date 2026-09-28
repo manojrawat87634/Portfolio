@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink, Lock, ChevronLeft, ChevronRight } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';import { Project } from '../pages/projects/MyProject';
+import { FaGithub } from 'react-icons/fa';
+import { Project } from '../pages/projects/projectData';
 
 
 interface ProjectCardProps {
